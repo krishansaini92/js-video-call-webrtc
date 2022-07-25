@@ -22,17 +22,22 @@ const handleListen = () => console.log(`Listening on http&ws://localhost:3000`);
 const server = http.createServer(app);          // http 서버를 다루고
 const wss = new WebSocket.Server({ server });   // 그 위에 ws 서버를 얹기 위해 한 작업 (http와 ws는 같은 port를 공유)
 
+const sockets = [];         // 몇 명이 연결되었는지 체크하기 위해
+
 // function handleConnection(socket){              // socket (backend): 연결된 브라우저
 //     console.log(socket);
 // }
 // wss.on("connection", handleConnection);
 wss.on("connection", (socket) => {              // to keep listening for events
+    sockets.push(socket);   // 연결이 이루어질 때마다 추가 (여러 브라우저에서 접속할 경우)
     console.log("Connected to Browser");
-    socket.on("close", () => console.log("Disconnected from Browser"))
+    socket.on("close", () => console.log("Disconnected from Browser"));
     socket.on("message", (message) => {
-        console.log(message.toString('utf8'));
-    })
-    socket.send("hello!!!");
+        // console.log(message.toString('utf8'));
+        // socket.send(message.toString('utf8'));
+        sockets.forEach((eachSocket) => eachSocket.send(message.toString('utf8')));
+    });
+    // socket.send("hello!!!");
 });
 
 server.listen(3000, handleListen);

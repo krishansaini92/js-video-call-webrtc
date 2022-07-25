@@ -2,6 +2,20 @@
 Zoom Clone using NodeJS, WebRTC and Websockets.
 
 ---
+## How to start
+> npm run dev
+
+- backend setup
+    1. npm init -y
+    2. npm i nodemon -D
+    3. npm i @babel/core @babel/cli @babel/node @babel/preset-env -D
+    4. npm i express
+    5. npm i pug
+<br><br>
+- basic HTML tag decoration
+    - link(rel="stylesheet" href="https://unpkg.com/mvp.css")
+
+---
 ## Part 1 - Setups
 #### BackEnd
 - express, babel, nodemon
