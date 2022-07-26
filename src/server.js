@@ -23,7 +23,22 @@ const io = SocketIO(httpServer);
 
 // [SocketIO way]
 io.on("connection", (socket) => {
-    console.log(socket);
+    // socket.on("enter_room", (msg) => console.log(msg));
+  
+    // socket.on("enter_room", (msg, cbfunc) => {
+    //     console.log(msg);
+    //     setTimeout(() => {
+    //         cbfunc();
+    //     }, 500);
+    // });
+
+    socket.on("enter_room", (roomName, arg2, done) => {
+        console.log(roomName, arg2);
+        setTimeout(() => {
+            // done();
+            done("hello from the backend");
+        }, 5000);
+    })
 });
 
 /*// [Websocket way]

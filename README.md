@@ -11,9 +11,12 @@ Zoom Clone using NodeJS, WebRTC and Websockets.
     3. npm i @babel/core @babel/cli @babel/node @babel/preset-env -D
     4. npm i express
     5. npm i pug
-<br><br>
+<br>
 - basic HTML tag decoration
     - link(rel="stylesheet" href="https://unpkg.com/mvp.css")
+<br><br>
+## Heads Up
+> See git history to look step by step processes!
 
 ---
 ## Part 1 - Setups
@@ -48,3 +51,15 @@ Zoom Clone using NodeJS, WebRTC and Websockets.
             > const io = SocketIO(httpServer);
         - Frontend
             > script(src="/socket.io/socket.io.js")
+
+3. Using SocketIO
+    - WebSocket : can ONLY send "message" with "String" type
+    - SocketIO : can EMIT "any event" with arguements (which can be a "Object". not only String!)
+        - Frontend
+            > socket.emit("[event name]", [payload1], [payload2], ... , [callback function]);
+        - Backend
+            > socket.on("[event name]", ([arguements]) => {});
+
+        ※ Callback Function : Sended from Frontend -> Called from Backend -> Executed on Frontend
+        - = press 'play' by backend and 'played' on frontend)
+        - Arguements can be sent from backend to the (frontend) function
