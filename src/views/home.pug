@@ -11,15 +11,16 @@ html(lang="en")
             h1 Zoom Clone
         main
             div#welcome
-                form
+                ul#noti
+                form#name
+                    input(type="text", placeholder="nickname", required)
+                    button Save
+                form#enterRoom
                     input(type="text", placeholder="room name", required)
                     button Enter Room
             div#room
                 h3
-                ul 
-                form#name
-                    input(type="text", placeholder="nickname", required)
-                    button Save
+                ul#roomNoti
                 form#msg
                     input(type="text", placeholder="message", required)
                     button Send

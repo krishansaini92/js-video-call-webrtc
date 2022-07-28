@@ -29,7 +29,7 @@ io.on("connection", (socket) => {
         console.log(`Socket Event: ${event}`);
     });
 
-    socket.on("enter_room", (roomName, arg2, done) => {
+    socket.on("enter_room", (roomName, nickname, done) => {
         // console.log(socket.id);
         // console.log(socket.rooms);
         socket.join(roomName);
@@ -48,7 +48,10 @@ io.on("connection", (socket) => {
         done();
     });
     
-    socket.on("nickname", (nickname) => socket["nickname"] = nickname);
+    socket.on("nickname", (nickname, done) => {
+        socket["nickname"] = nickname;
+        done();
+    });
 });
 
 /*// [Websocket way]

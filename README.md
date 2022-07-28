@@ -58,9 +58,9 @@ Zoom Clone using NodeJS, WebRTC and Websockets.
     - SocketIO : can EMIT "any event" with arguements (which can be a "Object". not only String!)
 
     1) Connect between Frontend & Backend
-        - Frontend
+        - Frontend / Backend
             > socket.emit("[event name]", [payload1], [payload2], ... , [callback function]);
-        - Backend
+        - Backend / Frontend
             > socket.on("[event name]", ([arguements]) => {});
 
         ※ Callback Function : Sended from Frontend -> Called from Backend -> Executed on Frontend
