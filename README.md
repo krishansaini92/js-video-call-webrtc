@@ -88,3 +88,7 @@ Zoom Clone using NodeJS, WebRTC and Websockets.
             > npm i @socket.io/admin-ui
         2> On Server-side
             > const {instrument} = require("@socket.io/admin-ui");
+        3> See documentations and add code
+        4> Turn on server
+        5> Go to https://admin.socket.io
+        6> Enter your local url (ex. http://localhost:3000)

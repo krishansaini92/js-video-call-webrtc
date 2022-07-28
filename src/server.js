@@ -1,6 +1,8 @@
 import http from "http";
 // import WebSocket from "ws";
-import SocketIO from "socket.io";
+// import SocketIO from "socket.io";
+const { Server } = require("socket.io");
+const { instrument } = require("@socket.io/admin-ui");
 import express from "express";
 
 const app = express();
@@ -19,7 +21,17 @@ const httpServer = http.createServer(app);
 // [Websocket]
 // const wss = new WebSocket.Server({ httpServer });
 // [SocketIO]
-const io = SocketIO(httpServer);
+// const io = SocketIO(httpServer);
+// [Admin Panel]
+const io = new Server(httpServer, {
+    cors: {
+        origin: ["https://admin.socket.io"],
+        credentials: true,
+    },
+});
+instrument(io, {
+    auth: false,
+});
 
 // [adapter]
 // show existing rooms
