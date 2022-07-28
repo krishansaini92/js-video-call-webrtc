@@ -25,8 +25,9 @@ function addNotification(message){
     ul.appendChild(li);
 }
 
-function backendDone(msg){
-    console.log(`Backend says: `, msg);
+function refreshRoom(userCount){
+    const h3 = room.querySelector("h3");
+    h3.innerText = `Room ${roomName} (${userCount})`;
 }
 
 function handleMessageSubmit(event){
@@ -79,11 +80,13 @@ function handleRoomSubmit(event){
     
 formEnter.addEventListener("submit", handleRoomSubmit);
 
-socket.on("welcome", (user) => {
+socket.on("welcome", (user, newCount) => {
+    refreshRoom(newCount);
     addMessage(`${user} Joined!`);
 });
 
-socket.on("bye", (user) => {
+socket.on("bye", (user, newCount) => {
+    refreshRoom(newCount);
     addMessage(`${user} Left!`);
 })
 

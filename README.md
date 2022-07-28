@@ -77,5 +77,14 @@ Zoom Clone using NodeJS, WebRTC and Websockets.
 
     3) Adapter
         - to synchronize the real-time application among different servers
+        - to see adapter information
+            - details like socket_id(sid), rooms are 'Map' type
+            > console.log(io.sockets.adapter);
         - send everyone that is connected to the socket
             > io.sockets.emit();
+
+    ※ Socket.IO Admin UI - for socketIO 'Backend'
+        1> Install
+            > npm i @socket.io/admin-ui
+        2> On Server-side
+            > const {instrument} = require("@socket.io/admin-ui");

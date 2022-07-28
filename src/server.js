@@ -22,6 +22,7 @@ const httpServer = http.createServer(app);
 const io = SocketIO(httpServer);
 
 // [adapter]
+// show existing rooms
 function publicRooms(){
     // const sids = io.sockets.adapter.sids;
     // const rooms = io.sockets.adapter.rooms;
@@ -40,6 +41,11 @@ function publicRooms(){
     return publicRooms;
 }
 
+// count user that is in a room
+function countRoom(roomName){
+    return io.sockets.adapter.rooms.get(roomName)?.size;
+}
+
 // [SocketIO way]
 io.on("connection", (socket) => {
     socket["nickname"] = "Anonymous";
@@ -55,13 +61,13 @@ io.on("connection", (socket) => {
         socket.join(roomName);
         // console.log(socket.rooms);
         done();     // execute showRoom() from frontend
-        socket.to(roomName).emit("welcome", socket.nickname);    // send messages to everyone on [roomName] EXCEPT myself!
+        socket.to(roomName).emit("welcome", socket.nickname, countRoom(roomName));    // send messages to everyone on [roomName] EXCEPT myself!
 
         io.sockets.emit("room_change", publicRooms());
     })
 
     socket.on("disconnecting", () => {
-        socket.rooms.forEach(room => socket.to(room).emit("bye", socket.nickname));
+        socket.rooms.forEach(room => socket.to(room).emit("bye", socket.nickname, countRoom(room) - 1));
     });
     
     socket.on("disconnect", () => {
