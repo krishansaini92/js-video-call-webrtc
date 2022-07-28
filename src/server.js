@@ -23,43 +23,32 @@ const io = SocketIO(httpServer);
 
 // [SocketIO way]
 io.on("connection", (socket) => {
-    // socket.on("enter_room", (msg) => console.log(msg));
-  
-    // socket.on("enter_room", (msg, cbfunc) => {
-    //     console.log(msg);
-    //     setTimeout(() => {
-    //         cbfunc();
-    //     }, 500);
-    // });
+    socket["nickname"] = "Anonymous";
 
     socket.onAny((event) => {
         console.log(`Socket Event: ${event}`);
     });
 
     socket.on("enter_room", (roomName, arg2, done) => {
-        // console.log(roomName, arg2);
-
-        // setTimeout(() => {
-        //     // done();
-        //     done("hello from the backend");
-        // }, 5000);
-
         // console.log(socket.id);
         // console.log(socket.rooms);
         socket.join(roomName);
         // console.log(socket.rooms);
         done();     // execute showRoom() from frontend
-        socket.to(roomName).emit("welcome");    // send messages to everyone on [roomName] EXCEPT myself!
+        socket.to(roomName).emit("welcome", socket.nickname);    // send messages to everyone on [roomName] EXCEPT myself!
     })
 
     socket.on("disconnecting", () => {
-        socket.rooms.forEach(room => socket.to(room).emit("bye"));
+        socket.rooms.forEach(room => socket.to(room).emit("bye", socket.nickname));
     });
 
     socket.on("new_message", (msg, room, done) => {
-        socket.to(room).emit("new_message", msg);
+        // socket.to(room).emit("new_message", msg);
+        socket.to(room).emit("new_message", `${socket.nickname}: ${msg}`);
         done();
     });
+    
+    socket.on("nickname", (nickname) => socket["nickname"] = nickname);
 });
 
 /*// [Websocket way]
