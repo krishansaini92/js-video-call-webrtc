@@ -21,12 +21,32 @@ const httpServer = http.createServer(app);
 // [SocketIO]
 const io = SocketIO(httpServer);
 
+// [adapter]
+function publicRooms(){
+    // const sids = io.sockets.adapter.sids;
+    // const rooms = io.sockets.adapter.rooms;
+    const {
+        sockets : {
+            adapter : {sids, rooms},
+        },
+    } = io;
+
+    const publicRooms = [];     // 퍼블릭 룸만 저장하기 위해
+    rooms.forEach((_, key) => {
+        if (sids.get(key) === undefined) {
+            publicRooms.push(key);
+        }
+    });
+    return publicRooms;
+}
+
 // [SocketIO way]
 io.on("connection", (socket) => {
     socket["nickname"] = "Anonymous";
 
     socket.onAny((event) => {
         console.log(`Socket Event: ${event}`);
+        console.log(io.sockets.adapter);
     });
 
     socket.on("enter_room", (roomName, nickname, done) => {
@@ -36,10 +56,16 @@ io.on("connection", (socket) => {
         // console.log(socket.rooms);
         done();     // execute showRoom() from frontend
         socket.to(roomName).emit("welcome", socket.nickname);    // send messages to everyone on [roomName] EXCEPT myself!
+
+        io.sockets.emit("room_change", publicRooms());
     })
 
     socket.on("disconnecting", () => {
         socket.rooms.forEach(room => socket.to(room).emit("bye", socket.nickname));
+    });
+    
+    socket.on("disconnect", () => {
+        io.sockets.emit("room_change", publicRooms());
     });
 
     socket.on("new_message", (msg, room, done) => {

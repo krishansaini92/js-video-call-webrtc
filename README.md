@@ -74,3 +74,8 @@ Zoom Clone using NodeJS, WebRTC and Websockets.
             > socket.to("[room name or socket id]").emit("[message]");
         - Disconnecting : a unique event - is going to disconnect (not disconnected)
             > socket.on("disconnecting", ()=>{});
+
+    3) Adapter
+        - to synchronize the real-time application among different servers
+        - send everyone that is connected to the socket
+            > io.sockets.emit();
