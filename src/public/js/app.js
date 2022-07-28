@@ -3,12 +3,21 @@ const socket = io();    // io() function 이 자동으로 socket.io를 실행하
 
 const welcome = document.querySelector("#welcome");
 const form = welcome.querySelector("form");
+const room = document.querySelector("#room");
 
-// function backendDone(){
-//     console.log("backend done");
-// }
+room.hidden = true;
+
+let roomName;
+
 function backendDone(msg){
     console.log(`Backend says: `, msg);
+}
+
+function showRoom(){
+    welcome.hidden = true;
+    room.hidden = false;
+    const h3 = room.querySelector("h3");
+    h3.innerText = `Room ${roomName}`;
 }
 
 function handleRoomSubmit(event){
@@ -22,7 +31,9 @@ function handleRoomSubmit(event){
     //     console.log("server is done");
     // });
  
-    socket.emit("enter_room", input.value, "additional arg", backendDone);
+    // socket.emit("enter_room", input.value, "additional arg", backendDone);
+    socket.emit("enter_room", input.value, "additional arg", showRoom);
+    roomName = input.value;
 
     input.value = "";
 }

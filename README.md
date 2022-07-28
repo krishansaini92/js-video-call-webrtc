@@ -28,8 +28,8 @@ Zoom Clone using NodeJS, WebRTC and Websockets.
 
 ---
 ## Part 2 - Chat with Websockets
-    > Websocket - It is a 'Protocol' for realtime service (ws) provided by the browser
-1. HTTP vs WS
+    Websocket - It is a 'Protocol' for realtime service (ws) provided by the browser
+### 1. HTTP vs WS
     - Stateless vs Stateful : Server remembers who you(=client =browser) are
     - HTTP : only request -> response
     - WS : (first) make connection (handshake way) -> send messages bidirectionally any time -> close connection
@@ -37,13 +37,14 @@ Zoom Clone using NodeJS, WebRTC and Websockets.
 ---
 ## Part 3 - SocketIO
     > SocketIO - It is a 'Framework' for realtime service 'using websocket' among other things
-1. SocketIO vs WebSockets
+### 1. SocketIO vs WebSockets
     - 공통점 : real-time, bidirectional, event-based communication
     - SocketIO is NOT a 'implementation' of WebSocket 
     - SocketIO provides 'reliability' : If websocket is not available, SocketIO will use other things
 
-2. Installing SocketIO
-    > npm i socket.io
+### 2. Installing SocketIO
+> npm i socket.io
+
     - socketIO must be installed on both Backend and Frontend. It is not 'givin' like WebSocket. (WebSocket API is already installed in the browser)
         - Backend
             > import SocketIO from "socket.io";
@@ -52,9 +53,11 @@ Zoom Clone using NodeJS, WebRTC and Websockets.
         - Frontend
             > script(src="/socket.io/socket.io.js")
 
-3. Using SocketIO
+### 3. Using SocketIO
     - WebSocket : can ONLY send "message" with "String" type
     - SocketIO : can EMIT "any event" with arguements (which can be a "Object". not only String!)
+
+    1) Connect between Frontend & Backend
         - Frontend
             > socket.emit("[event name]", [payload1], [payload2], ... , [callback function]);
         - Backend
@@ -63,3 +66,7 @@ Zoom Clone using NodeJS, WebRTC and Websockets.
         ※ Callback Function : Sended from Frontend -> Called from Backend -> Executed on Frontend
         - = press 'play' by backend and 'played' on frontend)
         - Arguements can be sent from backend to the (frontend) function
+
+    2) Rooms
+        - Distinguish sockets by 'rooms'
+            > socket.join("[room name]");
