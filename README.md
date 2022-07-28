@@ -68,5 +68,9 @@ Zoom Clone using NodeJS, WebRTC and Websockets.
         - Arguements can be sent from backend to the (frontend) function
 
     2) Rooms
-        - Distinguish sockets by 'rooms'
+        - Distinguish sockets and entering by 'rooms'
             > socket.join("[room name]");
+        - Send messages to rooms
+            > socket.to("[room name or socket id]").emit("[message]");
+        - Disconnecting : a unique event - is going to disconnect (not disconnected)
+            > socket.on("disconnecting", ()=>{});

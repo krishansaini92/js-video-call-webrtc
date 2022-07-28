@@ -48,8 +48,18 @@ io.on("connection", (socket) => {
         // console.log(socket.rooms);
         socket.join(roomName);
         // console.log(socket.rooms);
-        done();
+        done();     // execute showRoom() from frontend
+        socket.to(roomName).emit("welcome");    // send messages to everyone on [roomName] EXCEPT myself!
     })
+
+    socket.on("disconnecting", () => {
+        socket.rooms.forEach(room => socket.to(room).emit("bye"));
+    });
+
+    socket.on("new_message", (msg, room, done) => {
+        socket.to(room).emit("new_message", msg);
+        done();
+    });
 });
 
 /*// [Websocket way]
