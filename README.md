@@ -109,8 +109,16 @@ Zoom Clone using NodeJS, WebRTC and Websockets.
 
     3) Process
         1> Get User Media
-        2> Add Stream
-        3> Create Offer
+        2> Add Stream (Tracks)
+
+        <Peer A>
+        3> Create Offer (when Peer B joins)
         4> Set Local Description
         5> Send Offer to each peers (=> this is why we need a server. peer -> server -> peer)
         => To start a peer-to-peer communication, First both peers have to share 'Offers' (by using server)
+        9> Set Remote Description
+
+        <Peer B>
+        6> Set Remote Description
+        7> Create Answer
+        8> Set Local Description

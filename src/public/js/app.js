@@ -119,7 +119,7 @@ const welcome = document.getElementById("welcome");
 const welcomeForm = welcome.querySelector("form");
 
 // [1. Get Media]
-async function startMedia(){
+async function initCall(){
     welcome.hidden = true;
     call.hidden = false;
     await getMedia();
@@ -127,19 +127,21 @@ async function startMedia(){
     makeConnection();   // connect between browsers (peer to peer)
 }
 
-function handleWelcomeSubmit(event){
+async function handleWelcomeSubmit(event){
     event.preventDefault();
     const input = welcome.querySelector("input");
     // console.log(input.value);
 
     roomName = input.value;
-    socket.emit("join_room", roomName, startMedia);
+    await initCall();
+    socket.emit("join_room", roomName);
     input.value = "";
 }
 
 welcomeForm.addEventListener("submit", handleWelcomeSubmit);
 
 // Socket
+// runs on <Peer A>
 socket.on("welcome", async () => {
     // console.log("someone joined");
     // [3. Create Offer]
@@ -153,9 +155,27 @@ socket.on("welcome", async () => {
     socket.emit("offer", offer, roomName);
 });
 
+// runs on <Peer B>
 // [5-3. Send Offer] - Server to Peer B
-socket.on("offer", offer => {
-    console.log(offer);
+socket.on("offer", async (offer) => {
+    // console.log(offer);
+    // [6. Set Remote Description]
+    myPeerConnection.setRemoteDescription(offer);
+
+    // [7. Create Answer]
+    const answer = await myPeerConnection.createAnswer();
+    // console.log(answer);
+
+    // [8. Set Local Description]
+    myPeerConnection.setLocalDescription(answer);
+
+    // [9-1. Send Answer]
+    socket.emit("answer", answer, roomName);
+});
+
+// [9-3. Send Answer]
+socket.on("answer", (answer) => {
+    myPeerConnection.setRemoteDescription(answer);
 });
 
 // RTC

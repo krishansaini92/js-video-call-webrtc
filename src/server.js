@@ -18,15 +18,19 @@ const httpServer = http.createServer(app);
 const io = SocketIO(httpServer);
 
 io.on("connection", socket => {
-    socket.on("join_room", (roomName, done) => {
+    socket.on("join_room", (roomName) => {
         socket.join(roomName);
-        done();
         socket.to(roomName).emit("welcome");
     });
 
     // [5-2. Send Offer] - Peer A -> Server -> Peer B
     socket.on("offer", (offer, roomName) => {
         socket.to(roomName).emit("offer", offer);
+    });
+
+    // [9-2. Send Answer]
+    socket.on("answer", (answer, roomName) => {
+        socket.to(roomName).emit("answer", answer);
     });
 });
 
