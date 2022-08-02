@@ -23,6 +23,11 @@ io.on("connection", socket => {
         done();
         socket.to(roomName).emit("welcome");
     });
+
+    // [5-2. Send Offer] - Peer A -> Server -> Peer B
+    socket.on("offer", (offer, roomName) => {
+        socket.to(roomName).emit("offer", offer);
+    });
 });
 
 const handleListen = () => console.log(`Listening on http&io://localhost:3000`);

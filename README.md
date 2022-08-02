@@ -102,7 +102,15 @@ Zoom Clone using NodeJS, WebRTC and Websockets.
     1) peer-to-peer : nodes are connected directly (no need of 'server' to do this)
         => good for realtime
 
-    2) use of server (signaling) : to know 'where' the nodes are (where is your browser?)
+    2) use of server (Signaling Server) : to know 'where' the nodes are (where is your browser?)
 
     => my browser <-> (signaling) <-> server -> (signaling) <-> your browser
     => (after this process) => peer-to-peer communication
+
+    3) Process
+        1> Get User Media
+        2> Add Stream
+        3> Create Offer
+        4> Set Local Description
+        5> Send Offer to each peers (=> this is why we need a server. peer -> server -> peer)
+        => To start a peer-to-peer communication, First both peers have to share 'Offers' (by using server)
