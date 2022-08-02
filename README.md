@@ -92,3 +92,8 @@ Zoom Clone using NodeJS, WebRTC and Websockets.
         4> Turn on server
         5> Go to https://admin.socket.io
         6> Enter your local url (ex. http://localhost:3000)
+
+---
+## Part 4 - Video Call
+    - Media Stream
+        > navigator.mediaDevices.getUserMedia
