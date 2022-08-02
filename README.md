@@ -97,3 +97,12 @@ Zoom Clone using NodeJS, WebRTC and Websockets.
 ## Part 4 - Video Call
     - Media Stream
         > navigator.mediaDevices.getUserMedia
+
+### WebRTC (Web Real-Time Communication)
+    1) peer-to-peer : nodes are connected directly (no need of 'server' to do this)
+        => good for realtime
+
+    2) use of server (signaling) : to know 'where' the nodes are (where is your browser?)
+
+    => my browser <-> (signaling) <-> server -> (signaling) <-> your browser
+    => (after this process) => peer-to-peer communication
