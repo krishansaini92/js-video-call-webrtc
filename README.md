@@ -156,18 +156,19 @@ Video call using WebSockets, Socket.io, WebRTC coded by NodeJS and ReactJS<br>
 
     4) Sender : to control media stream track that is sent to our peer 
 
-    5) Local Tunnel (to test from network (ex. our phone))
-    ※ ONLY FREE for TEMPORARY!!
-        > npm i localtunnel
-        > npm i -g localtunnel (install globally)
+### Local Tunnel (to test from network (ex. our phone))
+※ ONLY FREE for TEMPORARY!!
+> npm i localtunnel
 
-        - command : > lt --port [portnumber]
-        - you should get a url and you can go into that url to test
+> npm i -g localtunnel (install globally)
 
-    6) STUN Server (Session Traversal Utilities for NAT)
-        - A server that gives you(client) the public IP Addresses(clients) that is connected to your app
-        - to get the stream from different networks(ex. wifi) => to communicate between other networks
-        - to test, you can use free public stun servers (ONLY for TEMPORARY TEST!)
+    - command : > lt --port [portnumber]
+    - you should get a url and you can go into that url to test
+
+### STUN Server (Session Traversal Utilities for NAT)
+    - A server that gives you(client) the public IP Addresses(clients) that is connected to your app
+    - to get the stream from different networks(ex. wifi) => to communicate between other networks
+    - to test, you can use free public stun servers (ONLY for TEMPORARY TEST!)
 
 ### Data Channel
     - A channel where peer-to-peer users can send/receive ANY Kind of Data
