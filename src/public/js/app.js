@@ -203,7 +203,24 @@ socket.on("ice", (ice) => {
 
 // RTC
 function makeConnection(){
-    myPeerConnection = new RTCPeerConnection();
+    // Local Server
+    // myPeerConnection = new RTCPeerConnection();
+
+    // STUN Server
+    // used google public stun server (which is only for test usage)
+    myPeerConnection = new RTCPeerConnection({
+        iceServers : [
+            {
+                urls: [
+                    "stun:stun.l.google.com:19302",
+                    "stun:stun1.l.google.com:19302",
+                    "stun:stun2.l.google.com:19302",
+                    "stun:stun3.l.google.com:19302",
+                    "stun:stun4.l.google.com:19302",
+                ],
+            },
+        ],
+    });
 
     // [3. IceCandidate]
     // [3-1. Make IceCandidate from My Browser]

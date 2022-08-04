@@ -154,6 +154,10 @@ Zoom Clone using NodeJS, WebRTC and Websockets.
         - command : > lt --port [portnumber]
         - you should get a url and you can go into that url to test
 
+    6) STUN Server (Session Traversal Utilities for NAT)
+        - A server that gives you(client) the public IP Addresses(clients) that is connected to your app
+        - to get the stream from different networks(ex. wifi) => to communicate between other networks
+        - to test, you can use free public stun servers (ONLY for TEMPORARY TEST!)
 
 
 ---
@@ -165,3 +169,6 @@ Zoom Clone using NodeJS, WebRTC and Websockets.
 [WebRTC](https://developer.mozilla.org/ko/docs/Web/API/WebRTC_API)
 
 [IceCandidate](https://developer.mozilla.org/ko/docs/Web/API/RTCIceCandidate)
+
+[STUN Server](https://www.3cx.com/pbx/what-is-a-stun-server/)<br>
+[List of STUN Servers for Test](https://gist.github.com/zziuni/3741933)
