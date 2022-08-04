@@ -16,6 +16,8 @@ let cameraOff = false;
 let roomName;
 let myPeerConnection;
 
+let myDataChannel;
+
 // To get Camera informations
 async function getCameras() {
     try {
@@ -155,6 +157,13 @@ welcomeForm.addEventListener("submit", handleWelcomeSubmit);
 // Socket
 // runs on <Peer A>
 socket.on("welcome", async () => {
+    // Data Channel - the host must create
+    myDataChannel = myPeerConnection.createDataChannel("chat");
+    myDataChannel.addEventListener("message", (event) => {
+        console.log(event.data);
+    });
+    console.log("made data channel");
+
     // console.log("someone joined");
     // [2-1. Create Offer]
     const offer = await myPeerConnection.createOffer();
@@ -170,6 +179,15 @@ socket.on("welcome", async () => {
 // runs on <Peer B>
 // [2-3-4. Get Offer] - Server to Peer B
 socket.on("offer", async (offer) => {
+    // Data Channel
+    // myPeerConnection.addEventListener("datachannel", console.log);
+    myPeerConnection.addEventListener("datachannel", (event) => {
+        myDataChannel = event.channel;
+        myDataChannel.addEventListener("message", (event) => {
+            console.log(event.data);
+        });
+    });
+
     // console.log(offer);
     console.log("received the offer");
     // [2-4. Set Remote Description]
@@ -204,23 +222,23 @@ socket.on("ice", (ice) => {
 // RTC
 function makeConnection(){
     // Local Server
-    // myPeerConnection = new RTCPeerConnection();
+    myPeerConnection = new RTCPeerConnection();
 
     // STUN Server
     // used google public stun server (which is only for test usage)
-    myPeerConnection = new RTCPeerConnection({
-        iceServers : [
-            {
-                urls: [
-                    "stun:stun.l.google.com:19302",
-                    "stun:stun1.l.google.com:19302",
-                    "stun:stun2.l.google.com:19302",
-                    "stun:stun3.l.google.com:19302",
-                    "stun:stun4.l.google.com:19302",
-                ],
-            },
-        ],
-    });
+    // myPeerConnection = new RTCPeerConnection({
+    //     iceServers : [
+    //         {
+    //             urls: [
+    //                 "stun:stun.l.google.com:19302",
+    //                 "stun:stun1.l.google.com:19302",
+    //                 "stun:stun2.l.google.com:19302",
+    //                 "stun:stun3.l.google.com:19302",
+    //                 "stun:stun4.l.google.com:19302",
+    //             ],
+    //         },
+    //     ],
+    // });
 
     // [3. IceCandidate]
     // [3-1. Make IceCandidate from My Browser]

@@ -1,5 +1,11 @@
-# Zoom Clone
-Zoom Clone using NodeJS, WebRTC and Websockets.
+# WebSocket, Socket.IO, WebRTC
+Video call using WebSockets, Socket.io, WebRTC coded by NodeJS and ReactJS<br>
+- course "zoom clone" by [NomadCoder](https://nomadcoders.co/noom)
+
+## ※ Heads Up
+> See GIT HISTORIES to look step-by-step Progresses!
+
+<br>
 
 ---
 ## How to start
@@ -14,9 +20,8 @@ Zoom Clone using NodeJS, WebRTC and Websockets.
 <br>
 - basic HTML tag decoration
     - link(rel="stylesheet" href="https://unpkg.com/mvp.css")
-<br><br>
-## Heads Up
-> See git history to look step by step processes!
+
+<br>
 
 ---
 ## Part 1 - Setups
@@ -26,9 +31,12 @@ Zoom Clone using NodeJS, WebRTC and Websockets.
 #### FrontEnd
 - pug
 
+<br>
+
 ---
-## Part 2 - Chat with Websockets
-    Websocket - It is a 'Protocol' for realtime service (ws) provided by the browser
+## Part 2 - Chat 
+## Websockets
+    > Websocket - It is a 'Protocol' for realtime service (ws) provided by the browser
 ### 1. HTTP vs WS
     - Stateless vs Stateful : Server remembers who you(=client =browser) are
     - HTTP : only request -> response
@@ -45,7 +53,7 @@ Zoom Clone using NodeJS, WebRTC and Websockets.
 ### 2. Installing SocketIO
 > npm i socket.io
 
-    - socketIO must be installed on both Backend and Frontend. It is not 'givin' like WebSocket. (WebSocket API is already installed in the browser)
+    - socketIO must be installed on both Backend and Frontend. It is not 'given' like WebSocket. (WebSocket API is already installed in the browser)
         - Backend
             > import SocketIO from "socket.io";
 
@@ -93,12 +101,14 @@ Zoom Clone using NodeJS, WebRTC and Websockets.
         5> Go to https://admin.socket.io
         6> Enter your local url (ex. http://localhost:3000)
 
+<br>
+
 ---
 ## Part 4 - Video Call
     - Media Stream
         > navigator.mediaDevices.getUserMedia
 
-### WebRTC (Web Real-Time Communication)
+## WebRTC (Web Real-Time Communication)
 ![webrtc image](./img/webRTC_process.png)
 
     1) peer-to-peer : nodes are connected directly (no need of 'server' to do this)
@@ -115,7 +125,7 @@ Zoom Clone using NodeJS, WebRTC and Websockets.
             1-2> Add 'My' Stream (Tracks)
 
         2> Offer and Answer (Local Description and Remote Description)
-            - The Host 'Offers', the participants 'Answer'
+            - The Host 'Offers', the Participants 'Answer'
 
             <Peer A>
             2-1> Create Offer (when Peer B joins)
@@ -159,6 +169,27 @@ Zoom Clone using NodeJS, WebRTC and Websockets.
         - to get the stream from different networks(ex. wifi) => to communicate between other networks
         - to test, you can use free public stun servers (ONLY for TEMPORARY TEST!)
 
+### Data Channel
+    - A channel where peer-to-peer users can send/receive ANY Kind of Data
+    - no need of a server to send/receive datas
+
+    1) The Host (socket that creates 'offer') creates the data channel
+    2) The Participants (sockets that get 'offer') get the data channel (they don't create another data channel)
+    3) Both Host and Participants adds a eventListener to communicate each other
+
+<br>
+
+---
+## ※ Caution when using WebRTC
+    - Full-Mesh Network : all the peers are connected to all other peers
+    => If there are too many peers, it will be very inefficient (too slow and heavy)
+![full mesh image](./img/Full_Mesh.png)
+
+    To improve this problem, try using 
+    - SFU (Selective Forwarding Unit)
+![sfu image](./img/SFU.png)
+
+<br>
 
 ---
 # References
@@ -172,3 +203,5 @@ Zoom Clone using NodeJS, WebRTC and Websockets.
 
 [STUN Server](https://www.3cx.com/pbx/what-is-a-stun-server/)<br>
 [List of STUN Servers for Test](https://gist.github.com/zziuni/3741933)
+
+[Data Channel](https://developer.mozilla.org/ko/docs/Web/API/RTCDataChannelEvent)
