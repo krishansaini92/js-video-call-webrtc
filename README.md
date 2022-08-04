@@ -99,6 +99,8 @@ Zoom Clone using NodeJS, WebRTC and Websockets.
         > navigator.mediaDevices.getUserMedia
 
 ### WebRTC (Web Real-Time Communication)
+![webrtc image](./img/webRTC_process.png)
+
     1) peer-to-peer : nodes are connected directly (no need of 'server' to do this)
         => good for realtime
 
@@ -108,17 +110,48 @@ Zoom Clone using NodeJS, WebRTC and Websockets.
     => (after this process) => peer-to-peer communication
 
     3) Process
-        1> Get User Media
-        2> Add Stream (Tracks)
+        1> Settings
+            1-1> Get User Media
+            1-2> Add 'My' Stream (Tracks)
 
-        <Peer A>
-        3> Create Offer (when Peer B joins)
-        4> Set Local Description
-        5> Send Offer to each peers (=> this is why we need a server. peer -> server -> peer)
-        => To start a peer-to-peer communication, First both peers have to share 'Offers' (by using server)
-        9> Set Remote Description
+        2> Offer and Answer (Local Description and Remote Description)
+            - The Host 'Offers', the participants 'Answer'
 
-        <Peer B>
-        6> Set Remote Description
-        7> Create Answer
-        8> Set Local Description
+            <Peer A>
+            2-1> Create Offer (when Peer B joins)
+            2-2> Set Local Description
+            2-3> Send Offer to each peers (=> this is why we need a server. peer -> server -> peer)
+            => To start a peer-to-peer communication, First both peers have to share 'Offers' (by using server)
+            2-8> Set Remote Description
+
+            <Peer B>
+            2-4> Set Remote Description
+            2-5> Create Answer
+            2-6> Set Local Description
+            2-7> Send Answer to each peers (peer -> server -> peer)
+
+        3> IceCandidate (Internet Connectivity Establishment)
+            - Both Peers fire 'IceCandidate' Event
+            - A kind of negotiation process that enables the browsers to communicate with each other mutually
+            - Candidates(the ways to communicate) are made from each browsers (candidates can be different due to browser differences)
+            - Each candidates made by other browsers should be sent to each other(browser)
+
+            <Peer A and Peer B>
+            3-1> Make Candidates
+            3-2> Send Candidates to Server (peers -> server)
+            3-3> Receive Candidates from Other Peers (server -> peers)
+
+        4> Add 'Peer's Stream 
+            - Both Peers register 'AddStream' Event
+
+
+
+---
+# References
+[WebSocket](https://developer.mozilla.org/ko/docs/Web/API/WebSocket)
+
+[SoketIO](https://socket.io/docs/v4/)
+
+[WebRTC](https://developer.mozilla.org/ko/docs/Web/API/WebRTC_API)
+
+[IceCandidate](https://developer.mozilla.org/ko/docs/Web/API/RTCIceCandidate)

@@ -23,14 +23,25 @@ io.on("connection", socket => {
         socket.to(roomName).emit("welcome");
     });
 
-    // [5-2. Send Offer] - Peer A -> Server -> Peer B
+    // [2. Offer]
+    // [2-3-2. Get Offer] - Peer A -> Server
     socket.on("offer", (offer, roomName) => {
+        // [2-3-3. Send Offer] - Server -> Peer B
         socket.to(roomName).emit("offer", offer);
     });
 
-    // [9-2. Send Answer]
+    // [2. Answer]
+    // [2-7-2. Get Answer] - Peer B -> Server
     socket.on("answer", (answer, roomName) => {
+        // [2-7-3. Send Answer] - Server -> Peer A
         socket.to(roomName).emit("answer", answer);
+    });
+
+    // [3. IceCandidate]
+    // [3-2-2. Get Candidates] - Peer -> Server
+    socket.on("ice", (ice, roomName) =>{
+        // [3-2-3. Send Candidates to Other Browsers] - Server -> Peer
+        socket.to(roomName).emit("ice", ice);
     });
 });
 

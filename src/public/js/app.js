@@ -118,7 +118,7 @@ camerasSelect.addEventListener("input", handleCameraChange);
 const welcome = document.getElementById("welcome");
 const welcomeForm = welcome.querySelector("form");
 
-// [1. Get Media]
+// [1-1. Get Media]
 async function initCall(){
     welcome.hidden = true;
     call.hidden = false;
@@ -144,46 +144,84 @@ welcomeForm.addEventListener("submit", handleWelcomeSubmit);
 // runs on <Peer A>
 socket.on("welcome", async () => {
     // console.log("someone joined");
-    // [3. Create Offer]
+    // [2-1. Create Offer]
     const offer = await myPeerConnection.createOffer();
     // console.log(offer);
-    // [4. Set Local Description]
+    // [2-2. Set Local Description]
     myPeerConnection.setLocalDescription(offer);
     console.log("sent the offer");
 
-    // [5-1. Send Offer] - Peer A to Server
+    // [2-3-1. Send Offer] - Peer A to Server
     socket.emit("offer", offer, roomName);
 });
 
 // runs on <Peer B>
-// [5-3. Send Offer] - Server to Peer B
+// [2-3-4. Get Offer] - Server to Peer B
 socket.on("offer", async (offer) => {
     // console.log(offer);
-    // [6. Set Remote Description]
+    console.log("received the offer");
+    // [2-4. Set Remote Description]
     myPeerConnection.setRemoteDescription(offer);
 
-    // [7. Create Answer]
+    // [2-5. Create Answer]
     const answer = await myPeerConnection.createAnswer();
     // console.log(answer);
 
-    // [8. Set Local Description]
+    // [2-6. Set Local Description]
     myPeerConnection.setLocalDescription(answer);
 
-    // [9-1. Send Answer]
+    // [2-7-1. Send Answer] - Peer B to Server
     socket.emit("answer", answer, roomName);
+    console.log("sent the answer");
 });
 
-// [9-3. Send Answer]
+// runs on <Peer A> again
+// [2-7-4. Get Answer] - Server to PeerA
 socket.on("answer", (answer) => {
+    console.log("received the answer");
+    // [2-8. Set Remote Description]
     myPeerConnection.setRemoteDescription(answer);
+});
+
+// [3-3. Get Candidates from Other Browsers] - Server -> Peer
+socket.on("ice", (ice) => {
+    console.log("received candidate");
+    myPeerConnection.addIceCandidate(ice);
 });
 
 // RTC
 function makeConnection(){
     myPeerConnection = new RTCPeerConnection();
+
+    // [3. IceCandidate]
+    // [3-1. Make IceCandidate from My Browser]
+    myPeerConnection.addEventListener("icecandidate", handleIce);
+
+    // [4. Add Peer's Stream]
+    myPeerConnection.addEventListener("addstream", handleAddStream);
+
     // console.log(myStream.getTracks());
-    // [2. Add Stream]
+    // [1-2. Add My Stream]
     myStream    // get Stream informations into peer connection
         .getTracks()
         .forEach(track => myPeerConnection.addTrack(track, myStream));
+}
+
+function handleIce(data){
+    console.log("get ice candidate");
+    // console.log(data);
+    // [3-2-1. Send IceCandidates to Server] - Peer to Server
+    console.log("sent candidate");
+    socket.emit("ice", data.candidate, roomName);
+}
+
+function handleAddStream(data){
+    console.log("got an event from my peer");
+    // console.log(data);
+    console.log("Peer's Stream", data.stream);
+    console.log("My Stream", myStream);
+
+    // create peer's video
+    const peerFace = document.getElementById("peerFace");
+    peerFace.srcObject = data.stream;
 }
