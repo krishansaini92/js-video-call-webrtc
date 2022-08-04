@@ -144,6 +144,16 @@ Zoom Clone using NodeJS, WebRTC and Websockets.
         4> Add 'Peer's Stream 
             - Both Peers register 'AddStream' Event
 
+    4) Sender : to control media stream track that is sent to our peer 
+
+    5) Local Tunnel (to test from network (ex. our phone))
+    ※ ONLY FREE for TEMPORARY!!
+        > npm i localtunnel
+        > npm i -g localtunnel (install globally)
+
+        - command : > lt --port [portnumber]
+        - you should get a url and you can go into that url to test
+
 
 
 ---

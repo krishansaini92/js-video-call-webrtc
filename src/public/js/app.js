@@ -106,6 +106,18 @@ function handleCameraClick(){
 async function handleCameraChange(){
     // console.log(camerasSelect.value);
     await getMedia(camerasSelect.value);
+
+    // Sender
+    // to update stream when camera changes
+    if (myPeerConnection) {
+        // console.log(myPeerConnection.getSenders());
+        const videoTrack = myStream.getVideoTracks()[0];
+        const videoSender = myPeerConnection
+            .getSenders()
+            .find((sender) => sender.track.kind === "video");
+        // console.log(videoSender);
+        videoSender.replaceTrack(videoTrack);
+    }
 }
 
 muteBtn.addEventListener("click", handleMuteClick);
