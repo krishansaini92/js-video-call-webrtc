@@ -1,6 +1,5 @@
 # WebSocket, Socket.IO, WebRTC
 Video call using WebSockets, Socket.io, WebRTC coded by NodeJS and ReactJS<br>
-- course "zoom clone" by [NomadCoder](https://nomadcoders.co/noom)
 
 ## ※ Heads Up
 > See GIT HISTORIES to look step-by-step Progresses!
